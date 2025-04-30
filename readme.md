@@ -6,3 +6,5 @@ cronjobs.sh
 create_backup.sh
 update_packages.sh
 update_network.sh
+
+Link to assignment: https://umsystem.instructure.com/courses/297942/assignments/2879429
