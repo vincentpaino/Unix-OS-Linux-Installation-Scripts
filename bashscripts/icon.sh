@@ -1,38 +1,47 @@
 #!/bin/bash
 
-# Use Zenity to prompt user to select the script (.sh file) to run and store in a variable
+# Prompt user to select the script (.sh file)
+script_path=$(zenity --file-selection --title="Select a Shell Script to Create Shortcut" --file-filter="*.sh")
 
+# If no script selected, exit
+if [[ -z "$script_path" ]]; then
+    zenity --error --text="No script selected. Exiting."
+    exit 1
+fi
 
-# If no script is selected, exit
+# Prompt user to select an image for the icon
+icon_path=$(zenity --file-selection --title="Select an Icon Image" --file-filter="Images | *.png *.jpg *.jpeg *.svg *.ico")
 
+# If no image selected, exit
+if [[ -z "$icon_path" ]]; then
+    zenity --error --text="No icon selected. Exiting."
+    exit 1
+fi
 
-# Use Zenity to prompt user to select an image to use as the icon and store in a variable
+# Prompt user to enter a name for the desktop entry
+entry_name=$(zenity --entry --title="Shortcut Name" --text="Enter a name for your desktop shortcut:")
 
+# If no name entered, use a default name
+if [[ -z "$entry_name" ]]; then
+    entry_name="MyShellScript"
+fi
 
-# If no image is selected, exit
+# Define the path for the .desktop file (in current directory)
+desktop_file="./$entry_name.desktop"
 
+# Create the .desktop file
+echo "[Desktop Entry]" > "$desktop_file"
+echo "Type=Application" >> "$desktop_file"
+echo "Name=$entry_name" >> "$desktop_file"
+echo "Exec=$script_path" >> "$desktop_file"
+echo "Icon=$icon_path" >> "$desktop_file"
+echo "Terminal=true" >> "$desktop_file"
 
-
-# Use Zenity to prompt user to enter a name for the desktop entry and store in a variable
-
-
-# If no name is entered, use a default name
-
-
-# Define the path for the .desktop file (in the current directory) and store in a variable
-
-
-# Create the .desktop file using echo commands
-# You can echo the content with the variables that you created
-# using all the variables that were stored for path
-# and zenity. The first line will be redirected >
-# the following lines will be added with >>
-
-
-# Copy the .desktop file to the user's desktop
-
+# Copy the .desktop file to user's desktop
+cp "$desktop_file" "$HOME/Desktop/"
 
 # Make the .desktop file executable
+chmod +x "$HOME/Desktop/$entry_name.desktop"
 
-
-# Use Zenity to notify user that the .desktop file has been created and moved
+# Notify user
+zenity --info --text="Shortcut '$entry_name.desktop' has been created on your desktop!"
