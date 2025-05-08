@@ -1,4 +1,4 @@
-Quite Frankly, this is a Jack Schroeder and Vince Paino collaborative creation. 
+This is a Collaborative Project utilizing an Ubuntu Linux installation on an external USB drive to run .sh scripts on.
 
 Bash files to submit:
 icon.sh
